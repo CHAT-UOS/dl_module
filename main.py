@@ -41,9 +41,7 @@ def Main():
     optimizer = optim.SGD(model.parameters(), lr=args.lr)
 
     for epoch in range(1, args.epoch+1):
-        print(f"train[{epoch}] start")
         train_test.train(model, epoch, criterion,
                          optimizer, train_loader, device)
-        print(f"test[{epoch}] start")
         train_test.test(model, epoch, criterion,
                         optimizer, test_loader, device)

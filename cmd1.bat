@@ -1,19 +1,8 @@
-for epoch in 5
-
-do
-
-for batch_size in 16
-
-do
-
-for lr in 0.01 
-
-do
-
-python run.py --epoch ${epoch} --batch_size ${batch_size} --lr ${lr}
-
-done
-
-done
-
-done
+@echo off
+for %%e in (3 10) do (
+  for %%b in (16) do (
+    for %%l in (0.01) do (
+      python run.py --epoch %%e --batch_size %%b --lr %%l
+    )
+  )
+)
