@@ -17,7 +17,6 @@ def train(model, epoch, criterion, optimizer, train_loader, device):
             loss = criterion(output, target)
             loss.backward()
             optimizer.step()
-
             train_loss += loss.item()
             pred = output.data.max(1, keepdim=True)[1]
             correct += pred.eq(target.data.view_as(pred)).cpu().sum()
@@ -40,5 +39,7 @@ def test(model, epoch, criterion, optimizer, test_loader, device):
         pred = output.data.max(1, keepdim=True)[1]
         correct += pred.eq(target.data.view_as(pred)).cpu().sum()
     test_loss /= len(test_loader.dataset)
+    result = round((100. * correct / len(test_loader.dataset)).item(), 2)
     print(f'Test set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(test_loader.dataset)} '
           f'({100. * correct / len(test_loader.dataset):.1f}%)')
+    return epoch, result

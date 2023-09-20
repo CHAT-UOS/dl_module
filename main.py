@@ -21,8 +21,9 @@ def Main():
     parser.add_argument('--lr', default=1e-2, type=float)
 
     args = parser.parse_args()  # 파싱
-
-    print(args)
+    args_dict = vars(args)
+    with open('test_record.txt', "a") as file:
+        file.write(f"{args_dict}\n")
 
     device = 'cuda' if cuda.is_available() else 'cpu'
 
@@ -34,7 +35,6 @@ def Main():
     print(f"{args.model} execution")
 
     if args.model == 'LeNet':
-
         model = Models.LeNet().to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -43,5 +43,8 @@ def Main():
     for epoch in range(1, args.epoch+1):
         train_test.train(model, epoch, criterion,
                          optimizer, train_loader, device)
-        train_test.test(model, epoch, criterion,
-                        optimizer, test_loader, device)
+        epoch, result = train_test.test(model, epoch, criterion,
+                                        optimizer, test_loader, device)
+        test_record = [epoch, result]
+        with open('test_record.txt', "a") as file:
+            file.write(f"{test_record}\n")
